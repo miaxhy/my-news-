@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <title>News Detail</title>
+
+  <!-- Bootstrap -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <div class="container">
+    <a class="navbar-brand" href="index.html">📰 My News</a>
+
+    <button class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#menu">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="menu">
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item">
+          <a class="nav-link" href="index.html">หน้าแรก</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="contact.html">ติดต่อ</a>
+        </li>
+        <li class="nav-item" id="authNavItem">
+          <a class="nav-link" href="login.html">Login</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- เนื้อข่าว -->
+<div class="container mt-5 mb-5">
+
+  <div class="card p-4 shadow">
+    <h2 id="title" class="mb-3"></h2>
+
+    <img id="image" class="news-img mb-3">
+
+    <p id="content"></p>
+
+    <a href="index.html" class="btn btn-secondary mt-3">← กลับหน้าแรก</a>
+  </div>
+
+</div>
+
+<!-- Footer -->
+<footer class="bg-dark text-white text-center p-3">
+  <p class="mb-0">© 2026 My News</p>
+</footer>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+  function updateAuthMenu() {
+    const authNavItem = document.getElementById("authNavItem");
+    if (!authNavItem) return;
+    const username = localStorage.getItem("myNewsUser");
+    if (username) {
+      authNavItem.innerHTML = `
+        <span class="nav-link text-white">สวัสดี, ${username}</span>
+        <a class="nav-link btn btn-outline-light btn-sm ms-2" href="#" onclick="logout(event)">Logout</a>`;
+    } else {
+      authNavItem.innerHTML = '<a class="nav-link" href="login.html">Login</a>';
+    }
+  }
+
+  function logout(e) {
+    if (e) e.preventDefault();
+    localStorage.removeItem("myNewsUser");
+    window.location.href = "login.html";
+  }
+
+  const params = new URLSearchParams(window.location.search);
+  const id = params.get("id");
+
+  const newsData = {
+    1: {
+      title: "ข่าวที่ 1",
+      image: "https://picsum.photos/800?1",
+      content: "นี่คือรายละเอียดของข่าวที่ 1 แบบยาว ๆ เพื่อแสดงผลในหน้าเว็บ..."
+    },
+    2: {
+      title: "ข่าวที่ 2",
+      image: "https://picsum.photos/800?2",
+      content: "นี่คือรายละเอียดของข่าวที่ 2 เนื้อหาตัวอย่าง..."
+    },
+    3: {
+      title: "ข่าวที่ 3",
+      image: "https://picsum.photos/800?3",
+      content: "นี่คือรายละเอียดของข่าวที่ 3..."
+    },
+    4: {
+      title: "ข่าวที่ 4",
+      image: "https://picsum.photos/800?4",
+      content: "นี่คือรายละเอียดของข่าวที่ 4..."
+    }
+  };
+
+  const news = newsData[id];
+
+  if (news) {
+    document.getElementById("title").innerText = news.title;
+    document.getElementById("image").src = news.image;
+    document.getElementById("content").innerText = news.content;
+  } else {
+    document.getElementById("title").innerText = "ไม่พบข่าว";
+    document.getElementById("content").innerText = "ข่าวนี้ไม่มีอยู่";
+  }
+
+  updateAuthMenu();
+</script>
+
+</body>
+</html>
